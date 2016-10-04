@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">SqliteExercise0926</string>
+    <string name="add_user_btn">Add User</string>
+    <string name="all_user_btn">All User</string>
+    <string name="modify_user_btn">Modify User</string>
+    <string name="delete_user_btn">Delete User</string>
+    <string name="add_user_contact_btn">Add User From Contact</string>
+    <string name="Username">Username</string>
+    <string name="Username_login">Username</string>
+    <string name="logint_v">Login</string>
+    <string name="login_tv">Login</string>
+    <string name="password_login">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="settings_text">Settings</string>
+    <string name="add_user_title">Add User</string>
+    <string name="name_adduser">Name</string>
+    <string name="number_adduser_et">Number</string>
+    <string name="dob_adduser_et">DOB</string>
+    <string name="address_adduser_et">Address</string>
+    <string name="username_adduser_et">Username</string>
+    <string name="password_adduser_et">Password</string>
+    <string name="modify_user_tv">Modify User</string>
+    <string name="delete_user_tv">Delete User</string>
+    <string name="name_delete_tv">My Name</string>
+    <string name="dob_delete_tv">My DOB</string>
+    <string name="number_delete_tv">My Number</string>
+    <string name="address_delete_tv">My Address</string>
+    <string name="all_user_tv">All Users</string>
+    <string name="signup">Sign Up</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="back_btn">Back</string>
+    <string name="my_contact_application">My Contact Application</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

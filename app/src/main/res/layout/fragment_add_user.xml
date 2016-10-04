@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+
+    <EditText
+
+        android:id="@+id/name_adduser_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_edit_text_box"
+        android:layout_margin="@dimen/login_margin"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:hint="@string/name_adduser"
+        android:inputType="textPersonName" />
+
+
+    <EditText
+        android:id="@+id/number_adduser_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_edit_text_box"
+        android:layout_below="@id/name_adduser_et"
+        android:layout_margin="@dimen/login_margin"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:hint="@string/number_adduser_et"
+        android:inputType="phone"
+        android:maxLength="14" />
+
+    <TextView
+        android:id="@+id/dob_adduser_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_edit_text_box"
+        android:layout_below="@id/number_adduser_et"
+        android:layout_margin="@dimen/login_margin"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:hint="@string/dob_adduser_et"
+        android:inputType="datetime" />
+
+    <EditText
+        android:id="@+id/address_adduser_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_edit_text_box"
+        android:layout_below="@id/dob_adduser_tv"
+        android:layout_margin="@dimen/login_margin"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:hint="@string/address_adduser_et"
+        android:inputType="textPostalAddress" />
+
+
+    <Button
+        android:id="@+id/addser_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address_adduser_et"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/login_margin"
+        android:layout_marginTop="@dimen/login_margin"
+        android:background="@drawable/login_btn"
+        android:text="@string/add_user_title"
+        android:textColor="@android:color/holo_green_light" />
+</RelativeLayout>
+

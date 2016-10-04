@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/all_users"
+
+            android:icon="@android:drawable/sym_contact_card"
+            android:title="@string/all_user_btn" />
+        <item
+            android:id="@+id/add_user_from_contact"
+            android:icon="@android:drawable/stat_sys_phone_call"
+            android:title="@string/add_user_contact_btn" />
+
+    </group>
+
+
+</menu>
