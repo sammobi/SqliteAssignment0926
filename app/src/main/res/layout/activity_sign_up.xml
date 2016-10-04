@@ -19,6 +19,7 @@
     <EditText
         android:id="@+id/username_signup_et"
         android:layout_width="match_parent"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:hint="@string/Username" />
 
@@ -28,9 +29,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password_login"
+        android:maxLines="1"
         android:inputType="textPassword" />
 
     <EditText
+        android:maxLines="1"
         android:id="@+id/confirmpass_signup_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

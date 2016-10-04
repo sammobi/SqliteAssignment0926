@@ -32,6 +32,7 @@
             android:background="@android:color/darker_gray"
             android:ems="10"
             android:gravity="center"
+            android:maxLines="1"
             android:hint="@string/Username_login"
             android:inputType="textPersonName" />
 
@@ -40,7 +41,8 @@
             android:id="@+id/password_login_et"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit_text_box"
-
+            android:inputType="textPassword"
+            android:maxLines="1"
             android:layout_margin="@dimen/login_margin"
             android:background="@android:color/darker_gray"
             android:gravity="center"

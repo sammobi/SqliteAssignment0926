@@ -12,6 +12,11 @@
             android:icon="@android:drawable/stat_sys_phone_call"
             android:title="@string/add_user_contact_btn" />
 
+        <item
+            android:id="@+id/add_user"
+            android:icon="@android:drawable/btn_plus"
+            android:title="Add Contact" />
+
     </group>
 
 

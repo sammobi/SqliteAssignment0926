@@ -2,6 +2,7 @@ package com.simpalm.sqliteassignment0926;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -13,8 +14,11 @@ import android.util.Log;
 public class UserDataSource {
     SqliteOpenHelper sqliteHelper;
     SQLiteDatabase sqLiteDatabase;
+    public SharedPreferences mSharedPreferences;
 
     String[] columnNames = {SqliteOpenHelper.COLUMN_NAME_ID, SqliteOpenHelper.USER_USERNAME, SqliteOpenHelper.USER_PASSWORD};
+    String[] contactcolumnNames = {SqliteOpenHelper.COLUMN_NAME_ID, SqliteOpenHelper.USER_USERNAME, SqliteOpenHelper.USER_CONTACT_NAME, SqliteOpenHelper.USER_CONTACT_PHONE, SqliteOpenHelper.USER_CONTACT_DOB, SqliteOpenHelper.USER_CONTACT_ADDRESS};
+
 
     public UserDataSource(Context context) {
 
@@ -44,8 +48,23 @@ public class UserDataSource {
 
     }
 
+    public void addContact(String userName, String Name, String Phone, String DOB, String Address) {
 
-    public String getSingleEntry(String userName, String password) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SqliteOpenHelper.USER_USERNAME, userName);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_NAME, Name);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_PHONE, Phone);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_DOB, DOB);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_ADDRESS, Address);
+
+        sqLiteDatabase.insert(SqliteOpenHelper.USER_CONTACT_TABLE, null, contentValues);
+        Log.d("Add a new contact", "contact");
+
+    }
+
+
+   /* public String getSingleEntry(String userName, String password) {
 
         String[] column = new String[]{
                 SqliteOpenHelper.USER_USERNAME
@@ -60,7 +79,7 @@ public class UserDataSource {
         password = cursor.getString(cursor.getColumnIndex(SqliteOpenHelper.USER_PASSWORD));
         cursor.close();
         return password;
-    }
+    }*/
 
 
     public boolean checkUserExist(String userName) {

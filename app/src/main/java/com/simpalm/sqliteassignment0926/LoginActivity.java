@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
+//
 public class LoginActivity extends Activity {
 
     private EditText mUsernameEt, mPasswordEt;
@@ -64,15 +64,14 @@ public class LoginActivity extends Activity {
                 mProgressdialog.dismiss();
                 userDataSource.closeDatabase();
                 String username = mUsernameEt.getText().toString();
-
-                if (password.equals(username)) {
+                String pwd = mPasswordEt.getText().toString();
+                if (password.equals(pwd)) {
 
                     mSharedPreferences = getApplicationContext().getSharedPreferences("Logged User", MODE_PRIVATE);
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString("user_name", username); // Storing string
 
                     editor.apply();
-
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -88,8 +87,9 @@ public class LoginActivity extends Activity {
                                       {
                                           @Override
                                           public void onClick(View v) {
-                                              Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                                              Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                                               startActivity(intent);
+                                              finish();
                                           }
                                       }
 
@@ -122,11 +122,11 @@ public class LoginActivity extends Activity {
         } else if (userDataSource.checkUserNotExist(mUsernameEt.getText().toString())) {
             Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
             return false;
-       /* } else if (!userDataSource.checkUserPassword(mUsernameEt.getText().toString()).
+        } else if (!userDataSource.checkUserPassword(mUsernameEt.getText().toString()).
                 equals(mPasswordEt.getText().toString())) {
 
             Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
-            return false;*/
+            return false;
 
 
         }

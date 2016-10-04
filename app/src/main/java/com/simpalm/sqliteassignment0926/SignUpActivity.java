@@ -85,7 +85,7 @@ public class SignUpActivity extends Activity {
                     editor.apply();
 
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 
@@ -122,6 +122,7 @@ public class SignUpActivity extends Activity {
                     editor.apply();
 
                     startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    finish();
                 }
             }
         });
