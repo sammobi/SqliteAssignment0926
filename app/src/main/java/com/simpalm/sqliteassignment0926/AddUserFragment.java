@@ -85,10 +85,10 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     String username = settings.getString("username", null);
 
-                    return username;
                 }
 
 
+                return null;
             }
 
 
