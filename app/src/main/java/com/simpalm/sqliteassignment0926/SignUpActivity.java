@@ -112,6 +112,7 @@ public class SignUpActivity extends Activity {
                 if (validateFields()) {
                     userDataSource.open();
 
+
                     userDataSource.insertNewUser(username, password);
 
                     userDataSource.closeDatabase();

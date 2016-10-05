@@ -3,8 +3,13 @@ package com.simpalm.sqliteassignment0926;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.view.LayoutInflater;
@@ -27,7 +32,12 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
     private EditText mNameEt, mPhoneEt, mAddressEt;
     private TextView mDobTv;
     private Button mAddContactBtn;
-    private int mYear, mMonth, mDay;
+    private UserDataSource userDataSource;
+    private AsyncTask<String, Void, String> asyncTask;
+    private ProgressDialog mProgressdialog;
+    public SharedPreferences mSharedPreferences;
+    public static final String PREFS_NAME = "AOP_PREFS";
+    public static final String PREFS_KEY = "AOP_PREFS_String";
 
 
     public AddUserFragment() {
@@ -48,8 +58,64 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         mAddContactBtn = (Button) view.findViewById(R.id.addser_btn);
         mDobTv.setOnClickListener(this);
         mAddContactBtn.setOnClickListener(this);
+        mProgressdialog = new ProgressDialog(getActivity());
+        asyncTask = new AsyncTask<String, Void, String>() {
+
+            @Override
+            protected void onPreExecute() {
+                mProgressdialog.setMessage("Adding contact please wait....");
+                mProgressdialog.show();
 
 
+                super.onPreExecute();
+            }
+
+
+            @Override
+            protected String doInBackground(String[] params) {
+
+                if (validateFields() == true) {
+
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    String username = settings.getString("username", null);
+
+                    return username;
+                }
+
+
+            }
+
+
+            @Override
+            protected void onPostExecute(String username) {
+                super.onPostExecute(username);
+
+                String name = mNameEt.getText().toString();
+                String phone = mPhoneEt.getText().toString();
+                String address = mAddressEt.getText().toString();
+                String dob = mDobTv.getText().toString();
+
+                userDataSource.open();
+                userDataSource.addContact(username, name, phone, dob, address);
+                userDataSource.closeDatabase();
+
+                Toast.makeText(getActivity(), "Contact added to database", Toast.LENGTH_SHORT).show();
+
+
+                mProgressdialog.dismiss();
+                userDataSource.closeDatabase();
+
+
+            }
+        }
+
+        ;
         return view;
     }
 
@@ -77,29 +143,37 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
 
             case R.id.addser_btn:
 
-                if (mNameEt.getText().toString().length() == 0) {
-                    Toast.makeText(getActivity(), "Please enter the name of the contact", Toast.LENGTH_SHORT).show();
-
-                } else if (mPhoneEt.getText().toString().length() < 10) {
-                    Toast.makeText(getActivity(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
-
-                }
-                else if (mPhoneEt.getText().toString().length() > 10) {
-                    Toast.makeText(getActivity(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
-
-                }else if (mDobTv.getText().toString().length() == 0) {
-                    Toast.makeText(getActivity(), "Please select date of birth", Toast.LENGTH_SHORT).show();
-
-                } else if (mAddressEt.getText().toString().length() == 0) {
-                    Toast.makeText(getActivity(), "Please enter the address", Toast.LENGTH_SHORT).show();
-
-
-
-                }
 
                 break;
         }
 
+    }
+
+    public boolean validateFields() {
+        if (mNameEt.getText().toString().length() == 0) {
+            Toast.makeText(getActivity(), "Please enter the name of the contact", Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if (mPhoneEt.getText().toString().length() < 10) {
+            Toast.makeText(getActivity(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
+            return false;
+
+
+        } else if (mPhoneEt.getText().toString().length() > 10) {
+            Toast.makeText(getActivity(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if (mDobTv.getText().toString().length() == 0) {
+            Toast.makeText(getActivity(), "Please select date of birth", Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if (mAddressEt.getText().toString().length() == 0) {
+            Toast.makeText(getActivity(), "Please enter the address", Toast.LENGTH_SHORT).show();
+            return false;
+
+
+        }
+        return true;
     }
 }
 

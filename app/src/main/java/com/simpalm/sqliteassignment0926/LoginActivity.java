@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ public class LoginActivity extends Activity {
     private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
     public SharedPreferences mSharedPreferences;
+    public static final String PREFS_NAME = "AOP_PREFS";
+    public static final String PREFS_KEY = "AOP_PREFS_String";
 
 
     @Override
@@ -67,11 +70,11 @@ public class LoginActivity extends Activity {
                 String pwd = mPasswordEt.getText().toString();
                 if (password.equals(pwd)) {
 
-                    mSharedPreferences = getApplicationContext().getSharedPreferences("Logged User", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString("user_name", username); // Storing string
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("username", username);
+                    editor.commit();
 
-                    editor.apply();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
