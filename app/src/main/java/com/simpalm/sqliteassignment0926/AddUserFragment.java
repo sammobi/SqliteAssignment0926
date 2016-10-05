@@ -73,22 +73,19 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
 
             @Override
             protected String doInBackground(String[] params) {
+                String username = "";
 
                 if (validateFields() == true) {
 
 
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    String username = settings.getString("username", null);
+                    username = settings.getString("username", null);
 
                 }
 
 
-                return null;
+                ;
+                return username;
             }
 
 
