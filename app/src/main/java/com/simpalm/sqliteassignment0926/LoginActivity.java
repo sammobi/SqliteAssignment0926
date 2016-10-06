@@ -70,9 +70,10 @@ public class LoginActivity extends Activity {
                 String pwd = mPasswordEt.getText().toString();
                 if (password.equals(pwd)) {
 
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("username", username);
+                    mSharedPreferences = getApplicationContext().getSharedPreferences("Logged User", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+                    editor.putString("user_name", username); // Storing string
+
                     editor.commit();
 
 

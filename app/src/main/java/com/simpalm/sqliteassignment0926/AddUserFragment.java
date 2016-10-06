@@ -11,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +22,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.Calendar;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -49,7 +54,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_user, container, false);
+        final View view = inflater.inflate(R.layout.fragment_add_user, container, false);
 
         mNameEt = (EditText) view.findViewById(R.id.name_adduser_et);
         mPhoneEt = (EditText) view.findViewById(R.id.number_adduser_et);
@@ -59,6 +64,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         mDobTv.setOnClickListener(this);
         mAddContactBtn.setOnClickListener(this);
         mProgressdialog = new ProgressDialog(getActivity());
+        userDataSource = new UserDataSource(getActivity());
         asyncTask = new AsyncTask<String, Void, String>() {
 
             @Override
@@ -78,8 +84,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 if (validateFields() == true) {
 
 
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    username = settings.getString("username", null);
+                    SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("Logged User", MODE_PRIVATE);
+                    username = mSharedPreferences.getString("user_name", "");
 
                 }
 
@@ -98,14 +104,23 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 String address = mAddressEt.getText().toString();
                 String dob = mDobTv.getText().toString();
 
+
                 userDataSource.open();
                 userDataSource.addContact(username, name, phone, dob, address);
                 userDataSource.closeDatabase();
 
-                Toast.makeText(getActivity(), "Contact added to database", Toast.LENGTH_SHORT).show();
-
 
                 mProgressdialog.dismiss();
+                Toast.makeText(getActivity(), "Contact added to database", Toast.LENGTH_SHORT).show();
+
+                AllUserFragment allUserFragment = new AllUserFragment();
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, allUserFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
                 userDataSource.closeDatabase();
 
 
@@ -139,6 +154,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.addser_btn:
+                asyncTask.execute();
 
 
                 break;

@@ -82,7 +82,7 @@ public class SignUpActivity extends Activity {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString("user_name", username); // Storing string
 
-                    editor.apply();
+                    editor.commit();
 
 
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);

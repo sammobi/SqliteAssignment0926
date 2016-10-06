@@ -17,7 +17,6 @@ public class UserDataSource {
     public SharedPreferences mSharedPreferences;
 
     String[] columnNames = {SqliteOpenHelper.COLUMN_NAME_ID, SqliteOpenHelper.USER_USERNAME, SqliteOpenHelper.USER_PASSWORD};
-    String[] contactcolumnNames = {SqliteOpenHelper.COLUMN_NAME_ID, SqliteOpenHelper.USER_USERNAME, SqliteOpenHelper.USER_CONTACT_NAME, SqliteOpenHelper.USER_CONTACT_PHONE, SqliteOpenHelper.USER_CONTACT_DOB, SqliteOpenHelper.USER_CONTACT_ADDRESS};
 
 
     public UserDataSource(Context context) {
