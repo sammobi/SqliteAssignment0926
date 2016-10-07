@@ -120,6 +120,8 @@ public class UserDataSource {
 
         int i = sqLiteDatabase.delete(SqliteOpenHelper.USER_CONTACT_TABLE, SqliteOpenHelper.COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(id)});
 
+        Log.d("Delete value", "value:" + i);
+
         closeDatabase();
 
 

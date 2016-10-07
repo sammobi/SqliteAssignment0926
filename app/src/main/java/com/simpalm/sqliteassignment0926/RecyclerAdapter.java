@@ -95,9 +95,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
 
         UserDataSource userDataSource = new UserDataSource(mContext);
 
+
+        userDataSource.removeContact(mContactList.get(position).getId());
+
         mContactList.remove(position);
 
-        userDataSource.removeContact(position);
         notifyItemRemoved(position);
         notifyDataSetChanged();
 
