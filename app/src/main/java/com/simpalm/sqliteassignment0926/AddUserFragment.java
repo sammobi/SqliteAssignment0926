@@ -54,8 +54,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_user, container, false);
         Bundle args = getArguments();
-        String contact_name = args.getString("name");
-        String contact_number = args.getString("number");
 
 
         mNameEt = (EditText) view.findViewById(R.id.name_adduser_et);
@@ -68,8 +66,19 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         mProgressdialog = new ProgressDialog(getActivity());
         userDataSource = new UserDataSource(getActivity());
 
-        mNameEt.setText(contact_name);
-        mPhoneEt.setText(contact_number);
+        if (args != null) {
+            String contact_name = args.getString("name");
+            String contact_number = args.getString("number");
+            String contact_dob = args.getString("dob");
+            String contact_address = args.getString("address");
+
+
+            mNameEt.setText(contact_name);
+            mPhoneEt.setText(contact_number);
+            mDobTv.setText(contact_dob);
+            mAddressEt.setText(contact_address);
+
+        }
         asyncTask = new AsyncTask<String, Void, String>() {
 
             @Override

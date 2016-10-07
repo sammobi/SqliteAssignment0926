@@ -33,6 +33,7 @@ public class SqliteOpenHelper extends SQLiteOpenHelper {
     private static final String USERCONTACT_DATABASE_DELETE = "drop table if exists " + USER_CONTACT_TABLE;
 
 
+
     public SqliteOpenHelper(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

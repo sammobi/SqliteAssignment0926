@@ -7,6 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Simpalm on 9/30/16.
  */
@@ -15,13 +19,17 @@ public class UserDataSource {
     SqliteOpenHelper sqliteHelper;
     SQLiteDatabase sqLiteDatabase;
     public SharedPreferences mSharedPreferences;
+    Context mContext;
 
     String[] columnNames = {SqliteOpenHelper.COLUMN_NAME_ID, SqliteOpenHelper.USER_USERNAME, SqliteOpenHelper.USER_PASSWORD};
+
+    String[] contactColumnNames = {SqliteOpenHelper.COLUMN_NAME_ID, SqliteOpenHelper.USER_USERNAME, SqliteOpenHelper.USER_CONTACT_NAME, SqliteOpenHelper.USER_CONTACT_DOB, SqliteOpenHelper.USER_CONTACT_PHONE, SqliteOpenHelper.USER_CONTACT_ADDRESS};
 
 
     public UserDataSource(Context context) {
 
         sqliteHelper = new SqliteOpenHelper(context);
+        mContext = context;
 
 
     }
@@ -62,6 +70,65 @@ public class UserDataSource {
 
     }
 
+    public ArrayList<User> getUsers() {
+
+        String username = "";
+
+
+        SharedPreferences mSharedPreferences = mContext.getSharedPreferences("Logged User", MODE_PRIVATE);
+        username = mSharedPreferences.getString("user_name", "");
+        ArrayList<User> userInformationArrayList = new ArrayList<>();
+
+        Cursor cursor = sqLiteDatabase.query(SqliteOpenHelper.USER_CONTACT_TABLE, contactColumnNames, SqliteOpenHelper.USER_USERNAME + " = ?", new String[]{(username)}, null, null, null);
+        if (cursor.getCount() == 0) {
+
+            return userInformationArrayList;
+        }
+        cursor.moveToFirst();
+        Log.d("ArrayList", "size of cursor" + cursor.getCount());
+
+        do {
+
+            User userInformation = new User();
+            userInformation.setUsername(cursor.getString(1));
+
+            userInformation.setId(cursor.getInt(0));
+            userInformation.setName(cursor.getString(2));
+            userInformation.setDob(cursor.getString(3));
+            userInformation.setNumber(cursor.getString(4));
+            userInformation.setAddress(cursor.getString(5));
+
+           /* Log.d("ArrayList", " Name" + cursor.getString(1));
+            Log.d("ArrayList", "Last Name" + cursor.getString(2));
+            Log.d("ArrayList", "Email" + cursor.getString(4));
+*/
+            userInformationArrayList.add(userInformation);
+
+        }
+
+        // cursor.movetoNext will move to next row until finished
+        while (cursor.moveToNext());
+
+
+        cursor.close();
+        return userInformationArrayList;
+    }
+
+    public void removeContact(int id) {
+
+        open();
+
+        int i = sqLiteDatabase.delete(SqliteOpenHelper.USER_CONTACT_TABLE, SqliteOpenHelper.COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(id)});
+
+        closeDatabase();
+
+
+    }
+
+    public void updateContact(String username, String Name, String Phone, String DOB, String Address) {
+
+
+    }
 
    /* public String getSingleEntry(String userName, String password) {
 

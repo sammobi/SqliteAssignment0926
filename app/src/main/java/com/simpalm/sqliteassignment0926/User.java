@@ -12,9 +12,23 @@ public class User {
         this.number = number;
         this.dob = dob;
         this.address = address;
+
+    }
+
+
+    public User() {
     }
 
     String username, password, name, number, dob, address;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername(String username) {
         return username;
