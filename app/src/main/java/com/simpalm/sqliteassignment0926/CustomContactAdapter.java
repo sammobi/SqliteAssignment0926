@@ -49,7 +49,7 @@ public class CustomContactAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.fragment_fragment_user_from_contact, null);
+            convertView = inflater.inflate(R.layout.fragment_user_from_contact, null);
             viewholder = new Viewholder();
 
             viewholder.mNameTv = (TextView) convertView.findViewById(R.id.name_addusercontact_tv);

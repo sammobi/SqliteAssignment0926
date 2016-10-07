@@ -41,8 +41,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
     private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
     public SharedPreferences mSharedPreferences;
-    public static final String PREFS_NAME = "AOP_PREFS";
-    public static final String PREFS_KEY = "AOP_PREFS_String";
 
 
     public AddUserFragment() {
@@ -55,6 +53,10 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_user, container, false);
+        Bundle args = getArguments();
+        String contact_name = args.getString("name");
+        String contact_number = args.getString("number");
+
 
         mNameEt = (EditText) view.findViewById(R.id.name_adduser_et);
         mPhoneEt = (EditText) view.findViewById(R.id.number_adduser_et);
@@ -65,6 +67,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         mAddContactBtn.setOnClickListener(this);
         mProgressdialog = new ProgressDialog(getActivity());
         userDataSource = new UserDataSource(getActivity());
+
+        mNameEt.setText(contact_name);
+        mPhoneEt.setText(contact_number);
         asyncTask = new AsyncTask<String, Void, String>() {
 
             @Override
@@ -81,13 +86,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
             protected String doInBackground(String[] params) {
                 String username = "";
 
-                if (validateFields() == true) {
 
-
-                    SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("Logged User", MODE_PRIVATE);
-                    username = mSharedPreferences.getString("user_name", "");
-
-                }
+                SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("Logged User", MODE_PRIVATE);
+                username = mSharedPreferences.getString("user_name", "");
 
 
                 ;
@@ -98,31 +99,29 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
             @Override
             protected void onPostExecute(String username) {
                 super.onPostExecute(username);
+                if (validateFields() == true) {
 
-                String name = mNameEt.getText().toString();
-                String phone = mPhoneEt.getText().toString();
-                String address = mAddressEt.getText().toString();
-                String dob = mDobTv.getText().toString();
+                    String name = mNameEt.getText().toString();
+                    String phone = mPhoneEt.getText().toString();
+                    String address = mAddressEt.getText().toString();
+                    String dob = mDobTv.getText().toString();
+
+                    userDataSource.open();
+                    userDataSource.addContact(username, name, phone, dob, address);
+                    userDataSource.closeDatabase();
 
 
-                userDataSource.open();
-                userDataSource.addContact(username, name, phone, dob, address);
-                userDataSource.closeDatabase();
+                    mProgressdialog.dismiss();
+                    Toast.makeText(getActivity(), "Contact added to database", Toast.LENGTH_SHORT).show();
 
+                    AllUserFragment allUserFragment = new AllUserFragment();
 
-                mProgressdialog.dismiss();
-                Toast.makeText(getActivity(), "Contact added to database", Toast.LENGTH_SHORT).show();
-
-                AllUserFragment allUserFragment = new AllUserFragment();
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, allUserFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-                userDataSource.closeDatabase();
-
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, allUserFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
 
             }
         }
@@ -172,11 +171,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
             return false;
 
 
-        } else if (mPhoneEt.getText().toString().length() > 10) {
+        } /*else if (mPhoneEt.getText().toString().length() > 10) {
             Toast.makeText(getActivity(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
-            return false;
-
-        } else if (mDobTv.getText().toString().length() == 0) {
+            return false;*/ else if (mDobTv.getText().toString().length() == 0) {
             Toast.makeText(getActivity(), "Please select date of birth", Toast.LENGTH_SHORT).show();
             return false;
 
