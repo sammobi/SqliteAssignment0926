@@ -5,6 +5,14 @@ package com.simpalm.sqliteassignment0926;
  */
 
 public class User {
+    public User(String username, String password, String name, String number, String dob, String address) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.number = number;
+        this.dob = dob;
+        this.address = address;
+    }
 
     String username, password, name, number, dob, address;
 
