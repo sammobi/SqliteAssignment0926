@@ -34,13 +34,13 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class AddUserFragment extends Fragment implements View.OnClickListener {
 
+
     private EditText mNameEt, mPhoneEt, mAddressEt;
     private TextView mDobTv;
     private Button mAddContactBtn;
     private UserDataSource userDataSource;
     private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
-    public SharedPreferences mSharedPreferences;
 
 
     public AddUserFragment() {
@@ -53,9 +53,11 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_user, container, false);
+        // get the values from the bundle
+
         Bundle args = getArguments();
 
-
+// find the view using view.findviewbyid
         mNameEt = (EditText) view.findViewById(R.id.name_adduser_et);
         mPhoneEt = (EditText) view.findViewById(R.id.number_adduser_et);
         mAddressEt = (EditText) view.findViewById(R.id.address_adduser_et);
@@ -63,22 +65,31 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         mAddContactBtn = (Button) view.findViewById(R.id.addser_btn);
         mDobTv.setOnClickListener(this);
         mAddContactBtn.setOnClickListener(this);
+
+        // initialize progressdialog
         mProgressdialog = new ProgressDialog(getActivity());
+
+        // initialize userdatasource class in this fragment
         userDataSource = new UserDataSource(getActivity());
 
+        // check if bundle is not null
+
         if (args != null) {
+            // get the value of all the edit text from the bundle
             String contact_name = args.getString("name");
             String contact_number = args.getString("number");
             String contact_dob = args.getString("dob");
             String contact_address = args.getString("address");
 
-
+// set the value retreived from the bundle and set in the edit text.
             mNameEt.setText(contact_name);
             mPhoneEt.setText(contact_number);
             mDobTv.setText(contact_dob);
             mAddressEt.setText(contact_address);
 
         }
+
+        //
         asyncTask = new AsyncTask<String, Void, String>() {
 
             @Override
