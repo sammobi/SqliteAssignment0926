@@ -71,6 +71,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
                 AddUserFragment fragment = new AddUserFragment(); // replace your custom fragment class
                 Bundle bundle = new Bundle();
                 FragmentTransaction fragmentTransaction = mContext.getSupportFragmentManager().beginTransaction();
+                bundle.putInt("id", contact.getId());
+
                 bundle.putString("name", contact.getName());
                 bundle.putString("number", contact.getNumber());
 

@@ -41,6 +41,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
     private UserDataSource userDataSource;
     private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
+    private int id;
 
 
     public AddUserFragment() {
@@ -66,6 +67,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         mDobTv.setOnClickListener(this);
         mAddContactBtn.setOnClickListener(this);
 
+
         // initialize progressdialog
         mProgressdialog = new ProgressDialog(getActivity());
 
@@ -76,6 +78,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
 
         if (args != null) {
             // get the value of all the edit text from the bundle
+            id = args.getInt("id");
             String contact_name = args.getString("name");
             String contact_number = args.getString("number");
             String contact_dob = args.getString("dob");
@@ -85,8 +88,12 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
             mNameEt.setText(contact_name);
             mPhoneEt.setText(contact_number);
             mDobTv.setText(contact_dob);
-            mAddressEt.setText(contact_address);
 
+            mAddressEt.setText(contact_address);
+            mAddContactBtn.setText("Update Contact");
+
+        } else {
+            id = 0;
         }
 
         //
@@ -126,8 +133,18 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                     String address = mAddressEt.getText().toString();
                     String dob = mDobTv.getText().toString();
 
+
                     userDataSource.open();
-                    userDataSource.addContact(username, name, phone, dob, address);
+                    if (id == 0) {
+
+                        userDataSource.addContact(username, name, phone, dob, address);
+
+
+                    } else {
+
+                        userDataSource.updateContact(id, username, name, phone, dob, address);
+                    }
+
                     userDataSource.closeDatabase();
 
 

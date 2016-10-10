@@ -70,6 +70,23 @@ public class UserDataSource {
 
     }
 
+    public void updateContact(int id, String userName, String Name, String Phone, String DOB, String Address) {
+
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SqliteOpenHelper.COLUMN_NAME_ID, id);
+        contentValues.put(SqliteOpenHelper.USER_USERNAME, userName);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_NAME, Name);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_PHONE, Phone);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_DOB, DOB);
+        contentValues.put(SqliteOpenHelper.USER_CONTACT_ADDRESS, Address);
+
+        sqLiteDatabase.update(SqliteOpenHelper.USER_CONTACT_TABLE, contentValues, SqliteOpenHelper.COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(id)});
+        Log.d("Update a contact ", "contact");
+
+    }
+
+
     public ArrayList<User> getUsers() {
 
         String username = "";
