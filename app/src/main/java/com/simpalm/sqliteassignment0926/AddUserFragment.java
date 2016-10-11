@@ -41,6 +41,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
     private UserDataSource userDataSource;
     private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
+
+    // create global variable for id
     private int id;
 
 
@@ -77,14 +79,17 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
         // check if bundle is not null
 
         if (args != null) {
-            // get the value of all the edit text from the bundle
+            // get the id of the contact
             id = args.getInt("id");
+
+            // get the value of all the edit text from the bundle
+
             String contact_name = args.getString("name");
             String contact_number = args.getString("number");
             String contact_dob = args.getString("dob");
             String contact_address = args.getString("address");
 
-// set the value retreived from the bundle and set in the edit text.
+// set the value received from the bundle and set in the edit text.
             mNameEt.setText(contact_name);
             mPhoneEt.setText(contact_number);
             mDobTv.setText(contact_dob);
@@ -92,12 +97,16 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
             mAddressEt.setText(contact_address);
             mAddContactBtn.setText("Update Contact");
 
+            // check if id is not available
+
         } else {
             id = 0;
         }
 
-        //
+        //initialise async task, with String, Void and String parameter. onPre execute return void. Do in backgrounf will return String and poexecute will have username parameter.
         asyncTask = new AsyncTask<String, Void, String>() {
+
+            // this is where you want to show the progress dialog or executre any task before running the async task in background.
 
             @Override
             protected void onPreExecute() {
@@ -108,49 +117,64 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 super.onPreExecute();
             }
 
-
+//override the doinbackground method with String paramter
             @Override
             protected String doInBackground(String[] params) {
+
+                // create username variable with empty value
                 String username = "";
 
-
+// call the sharedprefernce and get the username from sharepference and save it inside the username variable.
                 SharedPreferences mSharedPreferences = getActivity().getSharedPreferences("Logged User", MODE_PRIVATE);
                 username = mSharedPreferences.getString("user_name", "");
 
 
                 ;
+
+                // return the username saved in sharedpreference
                 return username;
             }
 
 
             @Override
+
+            // override the onpostexecute method and pass username as pmaramter returned from the doinbackground
             protected void onPostExecute(String username) {
                 super.onPostExecute(username);
+
+                // validate all edit text fields
                 if (validateFields() == true) {
 
+
+                    // get text value from user
                     String name = mNameEt.getText().toString();
                     String phone = mPhoneEt.getText().toString();
                     String address = mAddressEt.getText().toString();
                     String dob = mDobTv.getText().toString();
 
+// call the userdatasource file and use the open method to open the database
 
                     userDataSource.open();
+
+                    // if no id is assigned meaning it is a new user, then add the contact as a new contact
                     if (id == 0) {
 
                         userDataSource.addContact(username, name, phone, dob, address);
-
+// if there is an id available already then use the updatecontact method
 
                     } else {
 
                         userDataSource.updateContact(id, username, name, phone, dob, address);
                     }
 
+                    // close the database after pefroming the adding or updating
+
                     userDataSource.closeDatabase();
 
-
+// dismiss the progress dialog after executing above command
                     mProgressdialog.dismiss();
                     Toast.makeText(getActivity(), "Contact added to database", Toast.LENGTH_SHORT).show();
-
+// after performing the above task we have to move to the all user fragment view
                     AllUserFragment allUserFragment = new AllUserFragment();
 
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -190,6 +214,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.addser_btn:
+
+                // run the async task here
                 asyncTask.execute();
 
 

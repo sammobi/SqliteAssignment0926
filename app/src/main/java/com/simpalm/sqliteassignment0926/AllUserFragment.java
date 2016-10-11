@@ -19,11 +19,18 @@ import java.util.List;
  */
 public class AllUserFragment extends Fragment {
 
+    // create the recyclerview object
+
     private RecyclerView mRecyclerView;
+
+    // create arraylist of type User
 
     ArrayList<User> mContactArrayList;
 
+// create the recycler adapter object
     private RecyclerAdapter mRecyclerAdapter;
+
+    // create the object of ayns tasj of void, void and List<user>
     AsyncTask<Void, Void, List<User>> mAsynctask;
 
 
@@ -40,18 +47,22 @@ public class AllUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.recyclerview, container, false);
 
+        // type cast recycler view object
+
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-
+// assign the recyclerview in ths current fragment
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
+        // set the recyclerview object
+
         mRecyclerView.setLayoutManager(layoutManager);
 
-
+// assign asyntask object with following parameters
         mAsynctask = new AsyncTask<Void, Void, List<User>>() {
 
-
+// run this
             @Override
             protected void onPostExecute(List<User> userList) {
                 mRecyclerAdapter = new RecyclerAdapter(getActivity(), userList);
