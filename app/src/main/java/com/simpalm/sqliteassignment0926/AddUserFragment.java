@@ -45,7 +45,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
     // create global variable for id
     private int id;
 
-
     public AddUserFragment() {
         // Required empty public constructor
     }
@@ -129,7 +128,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 username = mSharedPreferences.getString("user_name", "");
 
 
-                ;
+
 
                 // return the username saved in sharedpreference
                 return username;
@@ -143,7 +142,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener {
                 super.onPostExecute(username);
 
                 // validate all edit text fields
-                if (validateFields() == true) {
+                if (validateFields()) {
 
 
                     // get text value from user

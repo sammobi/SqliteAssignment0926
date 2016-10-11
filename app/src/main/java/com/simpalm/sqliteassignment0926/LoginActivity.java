@@ -21,8 +21,6 @@ public class LoginActivity extends Activity {
     private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
     public SharedPreferences mSharedPreferences;
-    public static final String PREFS_NAME = "AOP_PREFS";
-    public static final String PREFS_KEY = "AOP_PREFS_String";
 
 
     @Override
@@ -48,35 +46,42 @@ public class LoginActivity extends Activity {
 
             @Override
             protected String doInBackground(String[] params) {
+
+                // show the progress dialog for 2 seconds
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
+// open the userdataosource class
                 userDataSource.open();
-                String password = userDataSource.checkUserPassword(params[0]);
 
+                // save the user password in the password variable by getting from userdatasrouce class
 
-                return password;
+// return the user password
+                return userDataSource.checkUserPassword(params[0]);
             }
 
             @Override
+
+            // get user password from above
             protected void onPostExecute(String password) {
                 super.onPostExecute(password);
                 mProgressdialog.dismiss();
                 userDataSource.closeDatabase();
                 String username = mUsernameEt.getText().toString();
                 String pwd = mPasswordEt.getText().toString();
-                if (password.equals(pwd)) {
 
+                // check if password is equal to the user entered password
+                if (password.equals(pwd)) {
+// get the username of user and save it in the sharedpreference
                     mSharedPreferences = getApplicationContext().getSharedPreferences("Logged User", MODE_PRIVATE);
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString("user_name", username); // Storing string
 
-                    editor.commit();
+                    editor.apply(); // commit
 
-
+// take user to the to the main activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -93,7 +98,7 @@ public class LoginActivity extends Activity {
                                           public void onClick(View v) {
                                               Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                                               startActivity(intent);
-                                              finish();
+
                                           }
                                       }
 
@@ -103,8 +108,12 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (validLoginFields() == true) {
+                // check if all validate fields are true before proceeding to the next task
 
+                if (validLoginFields()) {
+
+                    // if above fields are true then execute the async task
+// execute the async task and get the username of the user
                     asyncTask.execute(mUsernameEt.getText().toString());
 
                 }

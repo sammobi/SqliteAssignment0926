@@ -18,6 +18,8 @@ import static com.simpalm.sqliteassignment0926.R.id.toolbar;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // create the variable for nagivation view
+
     NavigationView navigationView;
 
 
@@ -26,11 +28,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // show all user fragment as a first fragment when open the view
+
         AllUserFragment fragment = new AllUserFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
+
+        // create the oboject of toolbar and cal the layout file
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

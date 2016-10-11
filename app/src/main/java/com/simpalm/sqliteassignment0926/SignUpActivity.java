@@ -35,7 +35,8 @@ public class SignUpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        mSharedPreferences = getSharedPreferences("sharedpref", MODE_PRIVATE);
+
+        // get sharedpreference
 
         mUsernameEt = (EditText) findViewById(R.id.username_signup_et);
         mPasswordEt = (EditText) findViewById(R.id.password_signup_et);
@@ -63,10 +64,9 @@ public class SignUpActivity extends Activity {
                 }
 
                 userDataSource.open();
-                String password = userDataSource.checkUserPassword(params[0]);
 
 
-                return password;
+                return userDataSource.checkUserPassword(params[0]);
             }
 
             @Override
@@ -82,7 +82,7 @@ public class SignUpActivity extends Activity {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString("user_name", username); // Storing string
 
-                    editor.commit();
+                    editor.apply();
 
 
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);

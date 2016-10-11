@@ -26,8 +26,9 @@ import java.util.List;
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ContactViewHolder> {
 
-    FragmentActivity mContext;
-
+    // create fragment activity context
+    private FragmentActivity mContext;
+// create contact list of type user
     private List<User> mContactList;
 
 
@@ -37,28 +38,40 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
     }
 
     @Override
+
+    // overrite the recycler adapter methods
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_all_user, parent, false);
+
+        // set the view in itemview and set it in the recyclerview
 
         return new ContactViewHolder(itemView);
     }
 
     @Override
+
+    // pass the contactview holder and position of the recyclerview
     public void onBindViewHolder(ContactViewHolder holder, final int position) {
 
+
+        // get the user contact list position
         final User contact = mContactList.get(position);
+
+        // set all the values of the contact list object and get it from contact class
         holder.mNameTv.setText(contact.getName());
         holder.mDOBTv.setText(contact.getDob());
         holder.mNumberTv.setText(contact.getNumber());
         holder.mAddress.setText(contact.getAddress());
-
+// delete a user on button click listener
         holder.mDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 Toast.makeText(mContext, "Your contact has been deleted", Toast.LENGTH_SHORT).show();
+
+                // remove the selected contact by getting the position of the selected list item
                 removeAt(position);
 
 
@@ -68,7 +81,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
         holder.mUpdateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // take user to the add user fragment view
                 AddUserFragment fragment = new AddUserFragment(); // replace your custom fragment class
+
+                // get the value from the bundle and show it on the text widgets
                 Bundle bundle = new Bundle();
                 FragmentTransaction fragmentTransaction = mContext.getSupportFragmentManager().beginTransaction();
                 bundle.putInt("id", contact.getId());
@@ -92,23 +109,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
 
 
     }
+// create method to remove the selected item
+    private  void removeAt(int position) {
 
-    public void removeAt(int position) {
+        // call the userdatasource class and pass context
 
         UserDataSource userDataSource = new UserDataSource(mContext);
 
-
+// call the remove contact method in that class and get the position and the id for the specific item list .
         userDataSource.removeContact(mContactList.get(position).getId());
 
-        mContactList.remove(position);
 
+        // remove the contact list from that position
+        mContactList.remove(position);
+// notify item repoved and data set changed.
         notifyItemRemoved(position);
         notifyDataSetChanged();
 
 
     }
 
-
+// get the item count if mcontact list is null
     @Override
     public int getItemCount() {
         if (mContactList == null)
@@ -116,11 +137,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
         return mContactList.size();
     }
 
+    // define all the textview widgets
     public class ContactViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mNameTv, mDOBTv, mNumberTv, mAddress;
         private ImageView mDeleteBtn, mUpdateBtn;
 
+
+        // create contactview holder class and find all the item view
         public ContactViewHolder(View itemView) {
 
             super(itemView);

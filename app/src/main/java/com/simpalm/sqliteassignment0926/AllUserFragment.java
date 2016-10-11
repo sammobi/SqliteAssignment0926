@@ -27,7 +27,7 @@ public class AllUserFragment extends Fragment {
 
     ArrayList<User> mContactArrayList;
 
-// create the recycler adapter object
+    // create the recycler adapter object
     private RecyclerAdapter mRecyclerAdapter;
 
     // create the object of ayns tasj of void, void and List<user>
@@ -43,7 +43,7 @@ public class AllUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mContactArrayList = new ArrayList<User>();
+        mContactArrayList = new ArrayList<>(); // <User>
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.recyclerview, container, false);
 
@@ -62,9 +62,13 @@ public class AllUserFragment extends Fragment {
 // assign asyntask object with following parameters
         mAsynctask = new AsyncTask<Void, Void, List<User>>() {
 
-// run this
+            // run this method after executing the doinbackground task...
             @Override
+
+            // pass the list>user> userlist as a parameter from the doin background method
             protected void onPostExecute(List<User> userList) {
+
+                // set the recycler adapter userlist after calling recycler adapter
                 mRecyclerAdapter = new RecyclerAdapter(getActivity(), userList);
                 mRecyclerView.setAdapter(mRecyclerAdapter);
 
@@ -72,19 +76,23 @@ public class AllUserFragment extends Fragment {
             }
 
             @Override
-            protected List<User> doInBackground(Void... params) {
 
+            // create do in background metod of type User and parameter as void .. params
+            protected List<User> doInBackground(Void... params) {
+// call userdatasource and open the database
                 UserDataSource userDataSource = new UserDataSource(getActivity());
                 userDataSource.open();
+
+                // assign the value of all the users list in users and call the getusers method on userdatasource class.
                 List<User> users = userDataSource.getUsers();
 
-
+// return all the users
                 return users;
             }
         };
-
+// execute the asyntask after running all the previous methods.
         mAsynctask.execute();
-
+// return the fragment view
         return view;
 
 
