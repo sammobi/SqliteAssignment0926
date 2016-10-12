@@ -17,7 +17,17 @@
             android:icon="@android:drawable/btn_plus"
             android:title="Add Contact" />
 
+
     </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:icon="@android:drawable/ic_menu_delete"
+                android:title="Log Out" />
+
+        </menu>
+    </item>
 
 
 </menu>
