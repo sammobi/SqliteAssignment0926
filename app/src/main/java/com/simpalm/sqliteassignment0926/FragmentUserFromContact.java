@@ -2,6 +2,7 @@ package com.simpalm.sqliteassignment0926;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,6 +39,8 @@ public class FragmentUserFromContact extends Fragment {
     // create sttic final variable and asign static value to read the contact
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
+    private ProgressDialog mProgressDialog;
+
     // create array list of type user
     private List<User> userList = new ArrayList<>();
 
@@ -56,11 +59,16 @@ public class FragmentUserFromContact extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.contact_listview, container, false);
 
+        mProgressDialog = new ProgressDialog(getActivity());
+
+
 // run the async task
         asyncTask = new AsyncTask<Uri, Void, List<User>>() {
 
             @Override
             protected void onPreExecute() {
+                mProgressDialog.setMessage("Loading please wait.....");
+                mProgressDialog.show();
 
 
                 super.onPreExecute();
@@ -130,6 +138,9 @@ public class FragmentUserFromContact extends Fragment {
 
 
                 super.onPostExecute(userList);
+
+                mProgressDialog.dismiss();
+
 // create object of listivre and find the view for the list view
                 mListView = (ListView) view.findViewById(R.id.contact_listview);
 // set on item click listener
@@ -155,7 +166,7 @@ public class FragmentUserFromContact extends Fragment {
                         ldf.setArguments(args);
 
 //Inflate the fragment
-                        getFragmentManager().beginTransaction().add(R.id.fragment_container, ldf).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_container, ldf).commit();
 
 
                     }

@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,7 +83,7 @@ public class SignUpActivity extends Activity {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString("user_name", username); // Storing string
 
-                    editor.apply();
+                    editor.commit();
 
 
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
@@ -116,11 +117,14 @@ public class SignUpActivity extends Activity {
                     userDataSource.insertNewUser(username, password);
 
                     userDataSource.closeDatabase();
+
+                    SharedPreferences mSharedPreferences = PreferenceManager
+                            .getDefaultSharedPreferences(SignUpActivity.this);
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
 
                     editor.putString("user_name", username);
 
-                    editor.apply();
+                    editor.commit();
 
                     startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                     finish();

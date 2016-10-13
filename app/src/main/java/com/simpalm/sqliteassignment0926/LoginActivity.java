@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString("user_name", username); // Storing string
 
-                    editor.apply(); // commit
+                    editor.commit(); // commit
 
 // take user to the to the main activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
