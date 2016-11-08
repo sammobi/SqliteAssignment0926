@@ -18,10 +18,8 @@ public class LoginActivity extends Activity {
     private EditText mUsernameEt, mPasswordEt;
     private Button mLoginBtn, mSignUpBtn;
     private UserDataSource userDataSource;
-    private AsyncTask<String, Void, String> asyncTask;
     private ProgressDialog mProgressdialog;
     public SharedPreferences mSharedPreferences;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,63 +32,6 @@ public class LoginActivity extends Activity {
         userDataSource = new UserDataSource(this);
         mUsernameEt.requestFocus();
         mProgressdialog = new ProgressDialog(this);
-        asyncTask = new AsyncTask<String, Void, String>() {
-
-            @Override
-            protected void onPreExecute() {
-                mProgressdialog.setMessage("Loading please wait.....");
-                mProgressdialog.show();
-
-                super.onPreExecute();
-            }
-
-            @Override
-            protected String doInBackground(String[] params) {
-
-                // show the progress dialog for 2 seconds
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-// open the userdataosource class
-                userDataSource.open();
-
-                // save the user password in the password variable by getting from userdatasrouce class
-
-// return the user password
-                return userDataSource.checkUserPassword(params[0]);
-            }
-
-            @Override
-
-            // get user password from above
-            protected void onPostExecute(String password) {
-                super.onPostExecute(password);
-                mProgressdialog.dismiss();
-                userDataSource.closeDatabase();
-                String username = mUsernameEt.getText().toString();
-                String pwd = mPasswordEt.getText().toString();
-
-                // check if password is equal to the user entered password
-                if (password.equals(pwd)) {
-// get the username of user and save it in the sharedpreference
-                    mSharedPreferences = getApplicationContext().getSharedPreferences("Logged User", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString("user_name", username); // Storing string
-
-                    editor.commit(); // commit
-
-// take user to the to the main activity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            }
-        };
-
-
         mSignUpBtn.setOnClickListener(new View.OnClickListener()
 
                                       {
@@ -98,30 +39,68 @@ public class LoginActivity extends Activity {
                                           public void onClick(View v) {
                                               Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                                               startActivity(intent);
-
                                           }
                                       }
-
         );
-
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // check if all validate fields are true before proceeding to the next task
-
                 if (validLoginFields()) {
-
                     // if above fields are true then execute the async task
-// execute the async task and get the username of the user
+                    // execute the async task and get the username of the user
                     asyncTask.execute(mUsernameEt.getText().toString());
-
                 }
-
             }
         });
     }
 
+    private AsyncTask asyncTask = new AsyncTask<String, Void, String>() {
+
+        @Override
+        protected void onPreExecute() {
+            mProgressdialog.setMessage("Loading please wait.....");
+            mProgressdialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String[] params) {
+            // show the progress dialog for 2 seconds
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // open the userdataosource class
+            userDataSource.open();
+            // save the user password in the password variable by getting from userdatasrouce class
+            // return the user password
+            return userDataSource.checkUserPassword(params[0]);
+        }
+
+        @Override
+        // get user password from above
+        protected void onPostExecute(String password) {
+            super.onPostExecute(password);
+            mProgressdialog.dismiss();
+            userDataSource.closeDatabase();
+            String username = mUsernameEt.getText().toString();
+            String pwd = mPasswordEt.getText().toString();
+            // check if password is equal to the user entered password
+            if (password.equals(pwd)) {
+                // get the username of user and save it in the sharedpreference
+                mSharedPreferences = getApplicationContext().getSharedPreferences("Logged User", MODE_PRIVATE);
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putString(Util.KEY_USERNAME, username); // Storing string
+                editor.commit(); // commit
+                // take user to the to the main activity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+    };
 
     public boolean validLoginFields() {
 
@@ -137,16 +116,10 @@ public class LoginActivity extends Activity {
             return false;
         } else if (!userDataSource.checkUserPassword(mUsernameEt.getText().toString()).
                 equals(mPasswordEt.getText().toString())) {
-
             Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
             return false;
-
-
         }
-
-
         return true;
-
     }
 }
 

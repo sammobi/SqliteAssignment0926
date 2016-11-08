@@ -88,14 +88,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Contac
                 // get the value from the bundle and show it on the text widgets
                 Bundle bundle = new Bundle();
                 FragmentTransaction fragmentTransaction = mContext.getSupportFragmentManager().beginTransaction();
-                bundle.putInt("id", contact.getId());
+                bundle.putInt(Util.KEY_ID, contact.getId());
 
-                bundle.putString("name", contact.getName());
-                bundle.putString("number", contact.getNumber());
+                bundle.putString(Util.KEY_NAME, contact.getName());
+                bundle.putString(Util.KEY_NUMBER, contact.getNumber());
 
-                bundle.putString("dob", contact.getDob());
+                bundle.putString(Util.KEY_DOB, contact.getDob());
 
-                bundle.putString("address", contact.getAddress());
+                bundle.putString(Util.KEY_ADDRESS, contact.getAddress());
 
                 // use as per your need
                 fragment.setArguments(bundle);
